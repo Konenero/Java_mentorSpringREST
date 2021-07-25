@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+    <body>
+    <div>
+        <table border="1">
+            <thead>
+            <tr>
+                <th> id </th>
+                <th> name </th>
+                <th> surname </th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${users}">
+                    <td><span th:text="${user.id}"> id </span></td>
+                    <td><span th:text="${user.username}"> name </span></td>
+                    <td><span th:text="${user.surname}"> surname </span></td>
+                    <td>
+                        <button type="button">
+                        <a th:href="@{admin/{id}/edit(id=${user.id})}" >update</a>
+                        </button>
+                    </td>
+                    <td>
+                    <button type="button">
+                    <a th:href="@{admin/{id}/delete(id=${user.id})}" >delete</a>
+                    </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <button type="button">
+        <div th:replace="fragments/logout :: logout"></div>
+    </button>
+    <button type="button">
+        <a th:href="@{user}" >My page</a>
+    </button>
+    <button type="button">
+        <a th:href="@{admin/new}" >add User</a>
+    </button>
+    </body>
+</html>

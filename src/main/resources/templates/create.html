@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>create</title>
+</head>
+<body>
+    <form action="#" th:action="@{adduser}" th:object="${user}" method="post">
+        <label for="name">Name</label>
+        <input type="text" th:field="*{username}" id="name" placeholder="Name">
+        <label for="surname">Surname</label>
+        <input type="text" th:field="*{surname}" id="surname" placeholder="Surname">
+        <label for="Password">Password</label>
+        <input type="text" th:field="*{password}" id="Password" placeholder="Password">
+        <p>
+            <label>Roles:
+                <input type="checkbox" name="authorities"
+                       th:each="role : ${allRoles}"
+                       th:text="${role.name}"
+                       th:value="${role.id}"
+                />
+            </label>
+        </p>
+        <input type="submit" value="Add User">
+    </form>
+    <button type="button">
+        <div th:replace="fragments/logout :: logout"></div>
+    </button>
+</body>
+</html>
