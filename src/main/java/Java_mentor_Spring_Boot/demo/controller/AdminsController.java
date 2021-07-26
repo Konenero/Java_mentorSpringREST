@@ -56,7 +56,6 @@ public class AdminsController {
         }
         Set<Role> roleSet = userService.getSetOfRoles(values);
         user.setRoles(roleSet);
-        user.setSurname(user.getSurname());
         userService.saveUser(user);
         return "redirect:/admin";
     }

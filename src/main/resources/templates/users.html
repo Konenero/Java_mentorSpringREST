@@ -12,14 +12,12 @@
             <tr>
                 <th> id </th>
                 <th> name </th>
-                <th> surname </th>
             </tr>
             </thead>
             <tbody>
                 <tr th:each="user : ${users}">
                     <td><span th:text="${user.id}"> id </span></td>
                     <td><span th:text="${user.username}"> name </span></td>
-                    <td><span th:text="${user.surname}"> surname </span></td>
                     <td>
                         <button type="button">
                         <a th:href="@{admin/{id}/edit(id=${user.id})}" >update</a>
