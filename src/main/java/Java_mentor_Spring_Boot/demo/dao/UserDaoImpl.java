@@ -40,10 +40,10 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findUserByName(String name) {
+    public User findUserByName(String email) {
         session = entityManager.unwrap(Session.class);
-        TypedQuery<User> query = session.createQuery("FROM User u where u.username = :name");
-        query.setParameter("name", name);
+        TypedQuery<User> query = session.createQuery("FROM User u where u.email = :email");
+        query.setParameter("email", email);
         return query.getSingleResult();
     }
 

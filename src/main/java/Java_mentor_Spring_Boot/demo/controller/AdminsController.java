@@ -5,6 +5,7 @@ import Java_mentor_Spring_Boot.demo.model.User;
 import Java_mentor_Spring_Boot.demo.service.RoleService;
 import Java_mentor_Spring_Boot.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 
@@ -32,8 +34,10 @@ public class AdminsController {
     }
 
     @GetMapping("")
-    public String getUsers(Model model) {
+    public String getUsers(Authentication authentication, Model model) {
         List<User> users = userService.listUsers();
+        model.addAttribute("firstrole", authentication.getAuthorities());
+        model.addAttribute("firstuser", authentication.getName());
         model.addAttribute("users", users);
         return "users";
     }
@@ -74,10 +78,12 @@ public class AdminsController {
     }
 
     @GetMapping("/new")
-    public String newUserForm(Model model) {
+    public String newUserForm(Model model, Principal principal) {
         model.addAttribute(new User());
+        User user = userService.findUserByName(principal.getName());
         List<Role> roles = roleService.getRolesList();
         model.addAttribute("allRoles", roles);
+        model.addAttribute("firsUser", user);
         return "create";
     }
 

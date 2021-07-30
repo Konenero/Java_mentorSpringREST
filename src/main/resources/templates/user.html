@@ -1,30 +1,69 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>User</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 </head>
 <body>
-<div>
-    <table border="1">
-    <thead>
-    <tr>
-        <th> id </th>
-        <th> name </th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><span th:text="${user.id}"> id </span></td>
-            <td><span th:text="${user.username}"> name </span></td>
-        </tr>
-    </tbody>
-
-</table>
+<div class="container-fluid bg-dark text-white" style="height: 40px;">
+    <div class="row " >
+        <div class="col-11">
+            <h3><p class="front-weight-bold"><span th:text="${user.email}"> Email</span> with roles:
+                <span th:text="${user.roles}"> Role </span></p></h3>
+        </div>
+        <div class="col-1">
+            <a th:replace="fragments/logout :: logout" class="text-white"><p class="align-self-center">Logout</p></a>
+        </div>
+    </div>
 </div>
-<button type="button">
-    <div th:replace="fragments/logout :: logout"></div>
-</button>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <div class="dashboard_rules" sec:authorize="hasAuthority('ROLE_ADMIN')">
+                    <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="/admin" role="tab" aria-controls="v-pills-home" aria-selected="true" >Admin</a>
+                </div>
+                <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="/user" role="tab" aria-controls="v-pills-profile" aria-selected="false">User</a>
+            </div>
+        </div>
+        <div class="col-10 bg-light text-dark">
+            <br>
+            <h1><p class="font-weight-bold">User information-page</p></h1>
+            <table class="table bg-white">
+                <thead>
+                <h4><p>About user</p></h4>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><span th:text="${user.id}"> id </span></td>
+                    <td><span th:text="${user.username}"> First Name </span></td>
+                    <td><span th:text="${user.surname}"> Last Name </span></td>
+                    <td><span th:text="${user.age}"> Age </span></td>
+                    <td><span th:text="${user.email}"> Email</span></td>
+                    <td><span th:text="${user.roles}"> Role </span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

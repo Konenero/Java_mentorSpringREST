@@ -15,10 +15,17 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(nullable = false, unique = true)
+    @Column
     private String username;
-    @Column(nullable = false)
+    @Column
     private String password;
+    @Column
+    private String surname;
+    @Column
+    private int age;
+    @Column
+    private String email;
+
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
@@ -26,6 +33,42 @@ public class User implements UserDetails {
                 inverseJoinColumns = @JoinColumn(name = "role_id")
                 )
     private Set<Role> roles = new HashSet<>();
+
+    public User(String username, String password, String surname, int age, String email, Set<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.surname = surname;
+        this.age = age;
+        this.email = email;
+        this.roles = roles;
+    }
+
+    public User() {
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public void setUsername(String username) {
         this.username = username;
