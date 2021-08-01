@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -22,7 +23,7 @@ public class User implements UserDetails {
     @Column
     private String surname;
     @Column
-    private int age;
+    private Long age;
     @Column
     private String email;
 
@@ -34,7 +35,7 @@ public class User implements UserDetails {
                 )
     private Set<Role> roles = new HashSet<>();
 
-    public User(String username, String password, String surname, int age, String email, Set<Role> roles) {
+    public User(String username, String password, String surname, Long age, String email, Set<Role> roles) {
         this.username = username;
         this.password = password;
         this.surname = surname;
@@ -54,11 +55,11 @@ public class User implements UserDetails {
         this.surname = surname;
     }
 
-    public int getAge() {
+    public Long getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Long age) {
         this.age = age;
     }
 
@@ -80,6 +81,9 @@ public class User implements UserDetails {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+    public String getRolesString(){
+        return roles.stream().map(Role::toString).collect(Collectors.joining(" "));
     }
 
     public void setRoles(Set<Role> roles) {

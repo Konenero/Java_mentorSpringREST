@@ -34,7 +34,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findUser(int id) {
+    public User findUser(Long id) {
         session = entityManager.unwrap(Session.class);
         return session.find(User.class, id);
     }
@@ -55,7 +55,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void deleteUser(int id) {
+    public void deleteUser(Long id) {
         session = entityManager.unwrap(Session.class);
         User user = session.find(User.class, id);
         session.remove(user);

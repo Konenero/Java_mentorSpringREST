@@ -18,10 +18,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException, ServletException {
         boolean isAdmin = authentication.getAuthorities().stream()
                 .map((authority) -> authority.getAuthority())
-                .anyMatch((a) -> a.equals("ROLE_ADMIN"));
+                .anyMatch((a) -> a.equals("ADMIN"));
         boolean isUser = authentication.getAuthorities().stream()
                 .map((authority) -> authority.getAuthority())
-                .anyMatch((a) -> a.equals("ROLE_USER"));
+                .anyMatch((a) -> a.equals("USER"));
         if (isAdmin) {
             httpServletResponse.sendRedirect("admin");
         } else if (isUser) {

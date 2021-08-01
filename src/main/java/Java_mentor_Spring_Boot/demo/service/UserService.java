@@ -10,10 +10,10 @@ import java.util.Set;
 
 public interface UserService {
     void saveUser(User user);
-    User findUser(int id);
+    User findUser(Long id);
     List<User> listUsers();
     User findUserByName(String email);
     Set<Role> getSetOfRoles(List<String> id);
-    void deleteUser(int id);
+    void deleteUser(Long id);
     void updateUser(User user);
 }

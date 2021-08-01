@@ -3,6 +3,7 @@ package Java_mentor_Spring_Boot.demo.controller;
 import Java_mentor_Spring_Boot.demo.model.User;
 import Java_mentor_Spring_Boot.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 
+import java.net.Authenticator;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/")
@@ -41,8 +44,10 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public String userPage(Model model, Principal principal) {
-        User user = userService.findUserByName(principal.getName());
+    public String userPage(Model model, Authentication authentication) {
+        model.addAttribute("firstrole", authentication.getAuthorities().stream().map(Object::toString).collect(Collectors.joining(" ")));
+        model.addAttribute("firstuser", authentication.getName());
+        User user = userService.findUserByName(authentication.getName());
         model.addAttribute("user", user);
         return "user";
     }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -38,14 +39,14 @@ public class AdminsController {
         List<User> users = userService.listUsers();
         List<Role> roles = roleService.getRolesList();
         model.addAttribute("allRoles", roles);
-        model.addAttribute("firstrole", authentication.getAuthorities());
+        model.addAttribute("firstrole", authentication.getAuthorities().stream().map(Object::toString).collect(Collectors.joining(" ")));
         model.addAttribute("firstuser", authentication.getName());
         model.addAttribute("users", users);
         return "users";
     }
 
     @GetMapping("/{id}/edit")
-    public String getEditForm(@PathVariable int id, Model model) {
+    public String getEditForm(@PathVariable Long id, Model model) {
         User userEdit = userService.findUser(id);
         List<Role> roles = roleService.getRolesList();
         model.addAttribute("allRoles", roles);
@@ -80,17 +81,18 @@ public class AdminsController {
     }
 
     @GetMapping("/new")
-    public String newUserForm(Model model, Principal principal) {
+    public String newUserForm(Model model, Authentication authentication) {
         model.addAttribute(new User());
-        User user = userService.findUserByName(principal.getName());
+        User user = userService.findUserByName(authentication.getName());
         List<Role> roles = roleService.getRolesList();
         model.addAttribute("allRoles", roles);
-        model.addAttribute("firsUser", user);
+        model.addAttribute("firstrole", authentication.getAuthorities().stream().map(Object::toString).collect(Collectors.joining(" ")));
+        model.addAttribute("firstuser", authentication.getName());
         return "create";
     }
 
     @GetMapping("/{id}/delete")
-    public String deleteUser(@PathVariable int id, Model model) {
+    public String deleteUser(@PathVariable Long id, Model model) {
         userService.deleteUser(id);
         return "redirect:/admin";
     }

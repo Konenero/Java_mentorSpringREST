@@ -8,8 +8,8 @@ import java.util.List;
 public interface UserDao {
     void saveUser(User user);
     User findUserByName(String email);
-    User findUser(int id);
+    User findUser(Long id);
     List<User> listUsers();
-    void deleteUser(int id);
+    void deleteUser(Long id);
     void updateUser(User user);
 }

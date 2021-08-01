@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public User findUser(int id) {
+    public User findUser(Long id) {
         return userDao.findUser(id);
     }
 
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public void deleteUser(int id) {
+    public void deleteUser(Long id) {
         userDao.deleteUser(id);
     }
 }

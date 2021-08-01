@@ -13,24 +13,28 @@
 <div class="container-fluid bg-dark text-white" style="height: 40px;">
     <div class="row ">
         <div class="col-11">
-            <h3><p class="front-weight-bold"><span th:text="${firsUser.email}"> Email</span> with roles:
-                <span th:text="${firsUser.roles}"> Role </span></p></h3>
+            <h3><p>
+                <span th:text="${firstuser}" class="font-weight-bold"> Email </span> with roles:
+                <span th:text="${firstrole}"> Role </span>
+            </p></h3>
         </div>
-        <div class="col-1">
-            <a th:replace="fragments/logout :: logout" class="text-white"><p class="align-self-center">Logout</p></a>
+        <div th:fragment="logout" class="col-1">
+            <a style="color: #cccccc" href="/logout">Logout</a>
         </div>
     </div>
 </div>
 <br>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-2">
-            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="/admin" role="tab"
-                   aria-controls="v-pills-home" aria-selected="true">Admin</a>
-                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="/user" role="tab"
-                   aria-controls="v-pills-profile" aria-selected="false">User</a>
-            </div>
+        <div class="col-sm-2 p-0 mt-2">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a href="/admin" class="btn btn-primary btn-lg btn-block text-left" role="button">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/">User</a>
+                </li>
+            </ul>
         </div>
         <div class="col-10 bg-light text-dark">
             <br>
@@ -49,11 +53,11 @@
             <form role="form"  id="userprofile-form" th:action="@{/admin/adduser}" th:method="post" th:object="${user}" class="ml-auto mr-auto d-flex flex-column justify-content-center align-items-center col-5 bg-white">
 
                 <div class="form-group">
-                    <label for="fn" class="d-flex justify-content-center font-weight-bold">FirstName</label>
+                    <label for="fn" class="d-flex justify-content-center font-weight-bold">First name</label>
                     <input type="text" th:field="*{username}" class="form-control" id="fn" placeholder="Enter name">
                 </div>
                 <div class="form-group">
-                    <label for="ln" class="d-flex justify-content-center font-weight-bold">Lastname</label>
+                    <label for="ln" class="d-flex justify-content-center font-weight-bold">Last name</label>
                     <input type="text" th:field="*{surname}" class="form-control" id="ln" placeholder="Enter last name">
                 </div>
                 <div class="form-group">
