@@ -36,6 +36,8 @@ public class AdminsController {
     @GetMapping("")
     public String getUsers(Authentication authentication, Model model) {
         List<User> users = userService.listUsers();
+        List<Role> roles = roleService.getRolesList();
+        model.addAttribute("allRoles", roles);
         model.addAttribute("firstrole", authentication.getAuthorities());
         model.addAttribute("firstuser", authentication.getName());
         model.addAttribute("users", users);
