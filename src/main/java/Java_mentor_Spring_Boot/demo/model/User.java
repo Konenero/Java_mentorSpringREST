@@ -4,9 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -15,7 +13,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column
     private String username;
     @Column
@@ -26,14 +24,16 @@ public class User implements UserDetails {
     private Long age;
     @Column
     private String email;
+    @Transient
+    private String[] roleString;
 
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
-                joinColumns = @JoinColumn(name = "user_id"),
-                inverseJoinColumns = @JoinColumn(name = "role_id")
-                )
-    private Set<Role> roles = new HashSet<>();
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Collection<Role> roles = new HashSet<>();
 
     public User(String username, String password, String surname, Long age, String email, Set<Role> roles) {
         this.username = username;
@@ -45,6 +45,14 @@ public class User implements UserDetails {
     }
 
     public User() {
+    }
+
+    public String[] getRoleString() {
+        return roleString;
+    }
+
+    public void setRoleString(String[] roleString) {
+        this.roleString = roleString;
     }
 
     public String getSurname() {
@@ -79,22 +87,24 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
+    public Collection<Role> getRoles() {
         return roles;
     }
-    public String getRolesString(){
+
+
+    public String getRolesString() {
         return roles.stream().map(Role::toString).collect(Collectors.joining(" "));
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Collection<Role> roles) {
         this.roles = roles;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -132,6 +142,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -144,7 +155,6 @@ public class User implements UserDetails {
     public int hashCode() {
         int result = 17;
         result = 31 * result + username.hashCode();
-        result = 31 * result + id;
         result = 31 * result + password.hashCode();
         return result;
     }

@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Users</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
 </head>
 <body>
 <div class="container-fluid bg-dark text-white" style="height: 40px;">
@@ -19,7 +17,7 @@
             </p></h3>
         </div>
         <div th:fragment="logout" class="col-1">
-            <a style="color: #cccccc" href="/logout">Logout</a>
+            <a style="text-align:center;color: #cccccc" class="nav-item nav-link pull-xs-right m-l-2 font-weight" href="/logout">Logout</a>
         </div>
     </div>
 </div>
@@ -44,51 +42,56 @@
                     <a class="nav-link " href="/admin">Users table</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="/admin/new" method="POST">New User</a>
+                    <a class="nav-link active">New User</a>
                 </li>
             </ul>
+
+
             <div class="container-fluid">
                 <h4><p class="left">Add new user</p></h4>
             </div>
-            <form role="form"  id="userprofile-form" th:action="@{/admin/adduser}" th:method="post" th:object="${user}" class="ml-auto mr-auto d-flex flex-column justify-content-center align-items-center col-5 bg-white">
+            <form role="form" id="userprofile_form" class="ml-auto mr-auto d-flex flex-column justify-content-center align-items-center col-5 bg-white">
 
                 <div class="form-group">
                     <label for="fn" class="d-flex justify-content-center font-weight-bold">First name</label>
-                    <input type="text" th:field="*{username}" class="form-control" id="fn" placeholder="Enter name">
+                    <input type="text" class="form-control" id="fn" placeholder="Enter name">
                 </div>
                 <div class="form-group">
                     <label for="ln" class="d-flex justify-content-center font-weight-bold">Last name</label>
-                    <input type="text" th:field="*{surname}" class="form-control" id="ln" placeholder="Enter last name">
+                    <input type="text" class="form-control" id="ln" placeholder="Enter last name">
                 </div>
                 <div class="form-group">
                     <label for="age" class="d-flex justify-content-center font-weight-bold">Age</label>
-                    <input type="number" th:field="*{age}" class="form-control" id="age" placeholder="Enter age">
+                    <input type="number" class="form-control" id="age" placeholder="Enter age">
                 </div>
                 <div class="form-group">
                     <label for="email" class="d-flex justify-content-center font-weight-bold">Email</label>
-                    <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="Enter email">
+                    <input type="email" class="form-control" id="email" placeholder="Enter email">
                 </div>
                 <div class="form-group">
-                    <label for="pwd" class="d-flex justify-content-center font-weight-bold">Password</label>
-                    <input type="password" th:field="*{password}" class="form-control" id="pwd" placeholder="Enter password">
+                    <label for="password" class="d-flex justify-content-center font-weight-bold">Password</label>
+                    <input type="text" class="form-control" id="password" placeholder="Enter password">
                 </div>
 
                 <div class="form-group">
-                    <label for="sel2" class="d-flex justify-content-center font-weight-bold">Role</label>
-                    <select multiple class="form-control" style="width:250px" id="sel2" size="2" name="authorities">
-                        <option
-                                th:each="role : ${allRoles}"
-                                th:text="${role.name}"
-                                th:value="${role.id}">
-                        </option>
+                    <label for="newRoles" class="d-flex justify-content-center font-weight-bold">Role</label>
+                    <select class="custom-select" id="newRoles" style="width:250px" size="2" multiple>
+                        <option value="1">ADMIN</option>
+                        <option value="2">USER</option>
                     </select>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn submit btn-success">Add new user</button>
+                    <button type="submit" name="toAllUserTable" class="btn submit btn-success">Add new user</button>
                 </div>
             </form>
+
+
         </div>
     </div>
 </div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script defer src="create.js"></script>
 </body>
 </html>

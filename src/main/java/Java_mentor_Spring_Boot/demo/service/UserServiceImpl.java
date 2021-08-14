@@ -11,9 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service("userDetailsServiceImpl")
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -47,14 +45,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public void saveUser(User user) {
-        User userToSave = new User();
-        userToSave.setUsername(user.getUsername());
-        userToSave.setPassword(passwordEncoder.encode(user.getPassword()));
-        userToSave.setRoles(user.getRoles());
-        userToSave.setAge(user.getAge());
-        userToSave.setEmail(user.getEmail());
-        userToSave.setSurname(user.getSurname());
-        userDao.saveUser(userToSave);
+        user.setRoles(getSetOfRoles(Arrays.asList(user.getRoleString())));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userDao.saveUser(user);
     }
 
     public Set<Role> getSetOfRoles(List<String> rolesId){
@@ -80,6 +73,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public void updateUser(User user) {
+        user.setRoles(getSetOfRoles(Arrays.asList(user.getRoleString())));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.updateUser(user);
     }
@@ -95,4 +89,5 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void deleteUser(Long id) {
         userDao.deleteUser(id);
     }
+
 }

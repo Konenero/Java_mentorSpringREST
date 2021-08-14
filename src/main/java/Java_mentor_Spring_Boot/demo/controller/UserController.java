@@ -1,8 +1,11 @@
 package Java_mentor_Spring_Boot.demo.controller;
 
+import Java_mentor_Spring_Boot.demo.model.Role;
 import Java_mentor_Spring_Boot.demo.model.User;
+import Java_mentor_Spring_Boot.demo.service.RoleService;
 import Java_mentor_Spring_Boot.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +25,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/")
 public class UserController {
     private UserService userService;
-
+    private RoleService roleService;
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    @Autowired
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
     }
 
     @RequestMapping(value = "hello", method = RequestMethod.GET)
@@ -52,4 +60,25 @@ public class UserController {
         return "user";
     }
 
+    @GetMapping("/admin")
+    public String getUsers(Authentication authentication, Model model) {
+        List<User> users = userService.listUsers();
+        List<Role> roles = roleService.getRolesList();
+        model.addAttribute("allRoles", roles);
+        model.addAttribute("firstrole", authentication.getAuthorities().stream().map(Object::toString).collect(Collectors.joining(" ")));
+        model.addAttribute("firstuser", authentication.getName());
+        model.addAttribute("users", users);
+        return "users";
+    }
+
+    @GetMapping("/new")
+    public String newUserForm(Model model, Authentication authentication) {
+        model.addAttribute(new User());
+        User user = userService.findUserByName(authentication.getName());
+        List<Role> roles = roleService.getRolesList();
+        model.addAttribute("allRoles", roles);
+        model.addAttribute("firstrole", authentication.getAuthorities().stream().map(Object::toString).collect(Collectors.joining(" ")));
+        model.addAttribute("firstuser", authentication.getName());
+        return "create";
+    }
 }
